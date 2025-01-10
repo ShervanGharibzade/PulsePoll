@@ -1,5 +1,11 @@
+import HomePage from "./pages/home/page";
+
 function App() {
-  return <>shervan is best</>;
+  return (
+    <main className="bg-zinc-800">
+      <HomePage />
+    </main>
+  );
 }
 
 export default App;
