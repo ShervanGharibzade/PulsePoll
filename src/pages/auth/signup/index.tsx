@@ -1,11 +1,48 @@
 import { useState } from "react";
 import Button from "../../../components/button";
 import { Link } from "react-router-dom";
-import { pageRoutes } from "../../../routes/routes";
+import { apiRoutes, pageRoutes } from "../../../routes/routes";
 
 const Signup = () => {
   const [username, setUsernamme] = useState("");
   const [password, setPassword] = useState("");
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+    if (name === "username") {
+      setUsernamme(value);
+      return;
+    }
+    setPassword(value);
+    return;
+  };
+
+  const submitInfo = async () => {
+    if (username && password) {
+      try {
+        const response = await fetch(apiRoutes.signUp, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password,
+          }),
+          credentials: "include", // Ensure credentials are included (e.g., cookies)
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to sign up");
+        }
+
+        const data = await response.json();
+        console.log(data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
 
   return (
     <div className="bg-zinc-800 min-h-screen w-full flex items-center">
@@ -25,7 +62,7 @@ const Signup = () => {
             name="username"
             value={username}
             placeholder="Enter your username"
-            onChange={() => {}}
+            onChange={onChange}
             className="rounded-md px-2 py-2 bg-slate-200 text-sm outline-none placeholder:text-sm placeholder:font-medium"
           />
         </div>
@@ -35,11 +72,11 @@ const Signup = () => {
             name="password"
             value={password}
             placeholder="Enter your password"
-            onChange={() => {}}
+            onChange={onChange}
             className="rounded-md px-2 py-2 bg-slate-200 text-sm outline-none placeholder:text-sm placeholder:font-medium"
           />
         </div>
-        <Button title="submit" className="my-5" onClick={() => {}} />
+        <Button title="submit" className="my-5" onClick={submitInfo} />
         <p className="text-white text-center">
           And if you have account
           <Link
