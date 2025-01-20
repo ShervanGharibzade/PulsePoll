@@ -19,7 +19,7 @@ const Button = ({
     <button
       disabled={isDisabled}
       className={twMerge(
-        "flex items-center font-semibold rounded-md bg-blue-400 px-3 py-2 text-white hover:bg-blue-500 cursor-pointer transition-colors duration-200 active:bg-blue-900",
+        "flex items-center font-semibold rounded-md justify-center bg-blue-400 px-3 py-2 text-white hover:bg-blue-500 cursor-pointer transition-colors duration-200 active:bg-blue-900",
         className
       )}
       onClick={onClick}

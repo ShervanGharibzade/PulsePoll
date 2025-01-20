@@ -1,4 +1,5 @@
-import Button from "../../../components/button";
+import { Link } from "react-router-dom";
+import { pageRoutes } from "../../../routes/routes";
 
 interface IMenuItem {
   title: string;
@@ -30,8 +31,18 @@ const Menu = () => {
           ))}
         </div>
         <div className="flex gap-5">
-          <Button title="Login" />
-          <Button title="Sign up" />
+          <Link
+            to={pageRoutes.login}
+            className="bg-blue-400 rounded-md text-white font-medium flex item-center px-3 py-1 outline-none"
+          >
+            Login
+          </Link>
+          <Link
+            to={pageRoutes.signUp}
+            className="bg-blue-400 rounded-md text-white font-medium flex item-center px-3 py-1 outline-none"
+          >
+            Signup
+          </Link>
         </div>
       </div>
     </nav>
