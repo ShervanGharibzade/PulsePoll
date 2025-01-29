@@ -1,47 +1,25 @@
-import { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import Button from "../../../components/button";
-import { apiRoutes, pageRoutes } from "../../../routes/routes";
-import { Link } from "react-router-dom";
+import { pageRoutes } from "../../../routes/routes";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../../../restApi/auth/login";
+
+type LoginFormInputs = {
+  username: string;
+  password: string;
+};
 
 const Login = () => {
-  const [username, setUsernamme] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormInputs>();
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = e.target;
-    if (name === "username") {
-      setUsernamme(value);
-      return;
-    }
-    setPassword(value);
-    return;
-  };
-
-  const loginInfo = async () => {
-    if (username && password) {
-      try {
-        const response = await fetch(apiRoutes.login, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username, password }),
-          credentials: "include",
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to log in");
-        }
-
-        const data = await response.json();
-        console.log("Logged in successfully:", data);
-
-        localStorage.setItem("access_token", data.access_token);
-        console.log("Access Token:", data.access_token);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
+  const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
+    await login(data);
+    navigate(pageRoutes.home);
   };
 
   return (
@@ -56,27 +34,40 @@ const Login = () => {
             PlusePoll
           </Link>
         </h2>
-        <div className="flex flex-col gap-2">
-          <label className="font-bold text-white text-lg">username</label>
-          <input
-            name="username"
-            value={username}
-            placeholder="Enter your username"
-            onChange={onChange}
-            className="rounded-md px-2 py-2 bg-slate-200 text-sm outline-none placeholder:text-sm placeholder:font-medium"
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label className="font-bold text-white text-lg">password</label>
-          <input
-            name="password"
-            value={password}
-            placeholder="Enter your password"
-            onChange={onChange}
-            className="rounded-md px-2 py-2 bg-slate-200 text-sm outline-none placeholder:text-sm placeholder:font-medium"
-          />
-        </div>
-        <Button title="submit" className="my-5" onClick={loginInfo} />
+
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            <label className="font-bold text-white text-lg">Username</label>
+            <input
+              {...register("username", { required: "Username is required" })}
+              placeholder="Enter your username"
+              className="rounded-md px-2 py-2 bg-slate-200 text-sm outline-none placeholder:text-sm placeholder:font-medium"
+            />
+            {errors.username && (
+              <span className="text-red-400 text-sm">
+                {errors.username.message}
+              </span>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="font-bold text-white text-lg">Password</label>
+            <input
+              type="password"
+              {...register("password", { required: "Password is required" })}
+              placeholder="Enter your password"
+              className="rounded-md px-2 py-2 bg-slate-200 text-sm outline-none placeholder:text-sm placeholder:font-medium"
+            />
+            {errors.password && (
+              <span className="text-red-400 text-sm">
+                {errors.password.message}
+              </span>
+            )}
+          </div>
+
+          <Button type="submit" title="Submit" className="my-5" />
+        </form>
+
         <p className="text-white text-center">
           And if you have not account
           <Link to={pageRoutes.signUp} className="text-blue-400 pl-2">
