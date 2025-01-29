@@ -1,6 +1,7 @@
 export const apiRoutes = {
-  login: "http://localhost:8080/auth/login",
-  signUp: "http://localhost:8080/auth/signup",
+  login: "auth/login",
+  signUp: "auth/signup",
+  userInfo: "user/info",
 };
 
 export const pageRoutes = {

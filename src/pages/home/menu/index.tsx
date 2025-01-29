@@ -1,5 +1,7 @@
-import { Link } from "react-router-dom";
 import { pageRoutes } from "../../../routes/routes";
+import Button from "../../../components/button";
+import { Link } from "react-router-dom";
+import Login from "../../auth/login";
 
 interface IMenuItem {
   title: string;
@@ -14,6 +16,8 @@ const menuItems: IMenuItem[] = [
 ];
 
 const Menu = () => {
+  const token = localStorage.getItem("authToken");
+
   return (
     <nav className="py-5">
       <div className="flex">
@@ -30,20 +34,16 @@ const Menu = () => {
             </div>
           ))}
         </div>
-        <div className="flex gap-5">
-          <Link
-            to={pageRoutes.login}
-            className="bg-blue-400 rounded-md text-white font-medium flex item-center px-3 py-1 outline-none"
-          >
-            Login
-          </Link>
-          <Link
-            to={pageRoutes.signUp}
-            className="bg-blue-400 rounded-md text-white font-medium flex item-center px-3 py-1 outline-none"
-          >
-            Signup
-          </Link>
-        </div>
+        {!token ? (
+          <div className="flex gap-5">
+            <Button as={Link} to={pageRoutes.login} title="Login" />
+            <Button as={Link} to={pageRoutes.signUp} title="Sign up" />
+          </div>
+        ) : (
+          <div>
+            <h2></h2>
+          </div>
+        )}
       </div>
     </nav>
   );
