@@ -14,8 +14,8 @@ interface IMenuItem {
 const menuItems: IMenuItem[] = [
   { title: "Home", link: "/" },
   { title: "Dashboard", link: "/dashboard" },
-  { title: "Contact", link: "/Contact" },
-  { title: "About", link: "/about" },
+  { title: "Contact us", link: "/Contact" },
+  { title: "About us", link: "/about" },
 ];
 
 const Menu = () => {

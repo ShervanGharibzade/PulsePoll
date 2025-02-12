@@ -7,10 +7,12 @@ const Input = ({
   iconEnd,
   iconStart,
   className,
+  name,
   isDisabled,
 }: {
-  onChange?: () => void;
+  onChange?: (e: any) => void;
   placeHolder?: string;
+  name?: string;
   value?: string | number;
   iconEnd?: React.ReactNode;
   iconStart?: React.ReactNode;
@@ -21,6 +23,7 @@ const Input = ({
     <div className="flex items-center">
       <span>{iconStart}</span>
       <input
+        name={name}
         value={value}
         disabled={isDisabled}
         placeholder={placeHolder}

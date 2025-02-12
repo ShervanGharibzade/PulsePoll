@@ -1,16 +1,14 @@
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Header from "./header";
-import Questions from "./questions";
+import QuestionsList from "./showQuestions";
 
-const Home = () => {
+const Dashboard = () => {
   return (
     <div>
-      <Header />
-      <Questions />
+      <QuestionsList />
       <ToastContainer />
     </div>
   );
 };
 
-export default Home;
+export default Dashboard;
