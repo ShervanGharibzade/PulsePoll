@@ -1,3 +1,4 @@
+import { IQuestion } from "../../../pages/dashboard/showQuestions";
 import { apiRoutes } from "../../../routes/routes";
 import { buildBaseUrl } from "../../../utils/buildBaseUrl";
 
@@ -18,7 +19,7 @@ const headers = () => {
   };
 };
 
-const getQuestions = async () => {
+const getQuestions = async (): Promise<IQuestion[]> => {
   const response = await fetch(buildBaseUrl(apiRoutes.questions.getAll), {
     method: "GET",
   });

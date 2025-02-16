@@ -1,13 +1,14 @@
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import QuestionsList from "./showQuestions";
+import DashboardLayout from "./layout";
 
 const Dashboard = () => {
   return (
-    <div>
+    <DashboardLayout>
       <QuestionsList />
       <ToastContainer />
-    </div>
+    </DashboardLayout>
   );
 };
 

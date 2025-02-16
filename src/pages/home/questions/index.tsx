@@ -105,7 +105,7 @@ const Questions = () => {
                       currentAnswer === i &&
                         "hover:bg-green-700 bg-green-700 border-none"
                     )}
-                    iconEnd={<Check className="w-4 h-4" />}
+                    iconEnd={<Check className="w-4 h-4 fill-white " />}
                   />
                 }
               />

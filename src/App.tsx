@@ -6,21 +6,16 @@ import Dashboard from "./pages/dashboard";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <main className="bg-zinc-800">
-              <HomePage />
-            </main>
-          }
-        />
-        <Route path="/auth/login" element={<Login />} />
-        <Route path="/auth/sign-up" element={<Signup />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
-    </Router>
+    <div className="bg-zinc-800">
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/auth/login" element={<Login />} />
+          <Route path="/auth/sign-up" element={<Signup />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 
