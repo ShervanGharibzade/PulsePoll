@@ -35,20 +35,16 @@ const Menu = () => {
     enabled: !!token,
   });
 
-  // Update token state when localStorage changes
   useEffect(() => {
     const handleStorageChange = () => {
       const storedToken = localStorage.getItem("authToken");
       setToken(storedToken);
     };
 
-    // Listen for changes in localStorage
     window.addEventListener("storage", handleStorageChange);
 
-    // Check localStorage on mount
     handleStorageChange();
 
-    // Cleanup the event listener
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
@@ -67,9 +63,9 @@ const Menu = () => {
     <nav className="py-5">
       <div className="flex">
         <div className="flex flex-1 gap-10 items-center">
-          <div className="text-blue-400 font-bold text-2xl uppercase">
+          <Link to={"/"} className="text-blue-400 font-bold text-2xl uppercase">
             plusepoll
-          </div>
+          </Link>
           {menuItems.map((item: IMenuItem, index: number) => (
             <div
               key={index}
