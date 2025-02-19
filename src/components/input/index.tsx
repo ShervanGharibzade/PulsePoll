@@ -7,13 +7,15 @@ const Input = ({
   iconEnd,
   iconStart,
   className,
+  onKeyDown,
   name,
   isDisabled,
 }: {
-  onChange?: (e: any) => void;
+  onChange?: any;
   placeHolder?: string;
   name?: string;
-  value?: string | number;
+  onKeyDown?: any;
+  value?: string | number | null;
   iconEnd?: React.ReactNode;
   iconStart?: React.ReactNode;
   className?: string;
@@ -25,6 +27,7 @@ const Input = ({
       <input
         name={name}
         value={value}
+        onKeyDown={onKeyDown}
         disabled={isDisabled}
         placeholder={placeHolder}
         className={twMerge(

@@ -4,8 +4,6 @@ import "react-toastify/dist/ReactToastify.css";
 type ToastType = "success" | "error" | "info" | "warning";
 
 export const showToast = (message: string, type: ToastType = "success") => {
-  console.log("kir");
-
   switch (type) {
     case "error":
       toast.error(message, {

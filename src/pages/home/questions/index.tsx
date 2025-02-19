@@ -3,6 +3,7 @@ import Button from "../../../components/button";
 import Input from "../../../components/input";
 import clsx from "clsx";
 import Check from "../../../assets/icons/check.svg?react";
+import Close from "../../../assets/icons/close-icon.svg?react";
 import {
   createQuestions,
   ICreateQuestion,
@@ -10,62 +11,71 @@ import {
 import { showToast } from "../../../components/toast";
 
 export interface IAnswer {
+  id: number;
   text: string;
   isCurrect: boolean;
   votePortion: number;
 }
 
 const Questions = () => {
-  const [limitAnswers, setLimitAnswers] = useState(2);
   const [titleQuestion, setTitleQuestion] = useState<string>("");
-  const [answers, setAnswers] = useState<IAnswer[]>(
-    Array.from({ length: limitAnswers }).map(() => ({
-      text: "",
-      isCurrect: false,
-      votePortion: 0,
-    }))
-  );
-  const [currentAnswer, setCurrentAnswer] = useState<null | Number>(null);
+  const [answers, setAnswers] = useState<IAnswer[]>([
+    { id: 0, text: "", isCurrect: false, votePortion: 0 },
+    { id: 1, text: "", isCurrect: false, votePortion: 0 },
+  ]);
+  const [currentAnswer, setCurrentAnswer] = useState<number | null>(null);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     const index = Number(name.split("-")[1]);
 
     setAnswers((prev) =>
-      prev.map((ans, i) =>
-        i === index
-          ? {
-              ...ans,
-              text: value.trim(),
-              isCurrect: Boolean(i === currentAnswer),
-              votePortion: 1,
-            }
-          : ans
+      prev.map((ans) =>
+        ans.id === index ? { ...ans, text: value.trim() } : ans
       )
     );
   };
 
-  const handleCurrentAnswer = (index: number) => {
+  const handleCurrentAnswer = (id: number) => {
     setAnswers((prev) =>
-      prev.map((ans, i) => ({
+      prev.map((ans) => ({
         ...ans,
-        isCurrect: i === index ? true : false, // Only the clicked answer should be marked as correct
+        isCurrect: ans.id === id,
       }))
     );
-    setCurrentAnswer(index); // Update the current answer index
+    setCurrentAnswer(id);
   };
-  console.log(answers);
+
+  const handleRemoveAnswer = (index: number) => {
+    setAnswers((prev) => prev.filter((ans) => ans.id !== index));
+
+    if (currentAnswer === index) {
+      setCurrentAnswer(null);
+    }
+  };
+
+  const handleAddAnswer = () => {
+    setAnswers((prev) => [
+      ...prev,
+      { id: prev.length, text: "", isCurrect: false, votePortion: 0 },
+    ]);
+  };
 
   const SubmitQuestion = async () => {
+    if (!titleQuestion.trim() || answers.some((a) => !a.text.trim())) {
+      showToast("Please fill in all fields before submitting", "error");
+      return;
+    }
+
+    const filteredAnswers = answers.map(({ id, ...rest }) => rest);
+
     const data: ICreateQuestion = {
       Question: titleQuestion,
-      Answers: answers,
+      Answers: filteredAnswers,
     };
-    console.log(data);
 
     try {
-      const res = await createQuestions(data);
-
+      await createQuestions(data);
       showToast("Your question was created successfully!", "success");
     } catch (error) {
       console.error("Error during submission:", error);
@@ -74,55 +84,65 @@ const Questions = () => {
 
   return (
     <div>
-      <div>
-        <h2 className="text-2xl font-semibold text-center my-20">
-          Create your question
-        </h2>
-        <div className="border-solid border rounded-lg p-5">
-          <div className="flex justify-center mx-auto">
+      <div className="text-2xl font-semibold text-center my-20 flex items-center w-full">
+        <div className="h-0.5 w-full bg-white mx-2" />
+        <h2 className="min-w-[250px]">Create your question</h2>
+        <div className="h-0.5 w-full bg-white mx-2" />
+      </div>
+      <div className="rounded-lg p-5">
+        <div className="flex justify-center mx-auto">
+          <Input
+            name="question"
+            className="pr-12 text-white"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setTitleQuestion(e.target.value.trim())
+            }
+            placeHolder="Enter your Question title"
+          />
+        </div>
+        <div className={clsx("grid gap-5 mt-5 w-fit mx-auto")}>
+          {answers.map((answer) => (
             <Input
-              name="question"
-              className="pr-12 text-white"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setTitleQuestion(e.target.value.trim())
+              key={answer.id}
+              name={`answer-${answer.id}`}
+              onChange={onChange}
+              className="text-white"
+              placeHolder="Enter your answer"
+              iconStart={
+                <div
+                  className="mr-3 cursor-pointer"
+                  onClick={() => handleRemoveAnswer(answer.id)}
+                >
+                  <Close className="w-4 h-4 fill-white" />
+                </div>
               }
-              placeHolder="Enter your Question title"
+              iconEnd={
+                <Button
+                  onClick={() => handleCurrentAnswer(answer.id)}
+                  className={clsx(
+                    "hover:bg-transparent ml-3 border border-white border-solid rounded-full transition-all duration-300 flex items-center p-1 bg-transparent",
+                    currentAnswer === answer.id &&
+                      "hover:bg-green-700 bg-green-700 border-none"
+                  )}
+                  iconEnd={<Check className="w-4 h-4 fill-white" />}
+                />
+              }
             />
-          </div>
-          <div className={clsx("grid gap-5 mt-5 w-fit mx-auto")}>
-            {Array.from({ length: limitAnswers }).map((_, i) => (
-              <Input
-                key={i}
-                name={`answer-${i}`}
-                onChange={onChange}
-                className="text-white"
-                placeHolder="Enter your answer"
-                iconEnd={
-                  <Button
-                    onClick={() => handleCurrentAnswer(i)}
-                    className={clsx(
-                      "hover:bg-transparent ml-3 border border-white border-solid rounded-full transition-all duration-300 flex items-center p-1 bg-transparent",
-                      currentAnswer === i &&
-                        "hover:bg-green-700 bg-green-700 border-none"
-                    )}
-                    iconEnd={<Check className="w-4 h-4 fill-white " />}
-                  />
-                }
-              />
-            ))}
-            <div className="flex items-center gap-2 w-fit justify-center mx-auto">
-              <Button
-                onClick={() => setLimitAnswers((prev) => prev + 1)}
-                title="+"
-                className="w-7 h-7 rounded-full bg-gray-500 p-2 mx-auto"
-              />
-              <Button
-                disabled={!titleQuestion && !answers[0].text}
-                onClick={SubmitQuestion}
-                title="submit"
-                className="w-fit h-7 rounded-full p-2 mx-auto"
-              />
-            </div>
+          ))}
+          <div className="flex items-center gap-2 w-fit justify-center mx-auto">
+            <Button
+              onClick={handleAddAnswer}
+              title="+"
+              className="w-7 h-7 rounded-full bg-gray-500 p-2 mx-auto"
+            />
+            <Button
+              disabled={
+                !titleQuestion.trim() || answers.some((a) => !a.text.trim())
+              }
+              onClick={SubmitQuestion}
+              title="Submit"
+              className="w-fit h-7 rounded-full p-2 mx-auto"
+            />
           </div>
         </div>
       </div>

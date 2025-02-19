@@ -22,13 +22,16 @@ const headers = () => {
 const getQuestions = async (): Promise<IQuestion[]> => {
   const response = await fetch(buildBaseUrl(apiRoutes.questions.getAll), {
     method: "GET",
+    headers: headers(),
   });
+
   return await response.json();
 };
 
 const getQuestionsById = async (id: number) => {
   const response = await fetch(buildBaseUrl(apiRoutes.questions.getById(id)), {
     method: "GET",
+    headers: headers(),
   });
   return response.json();
 };

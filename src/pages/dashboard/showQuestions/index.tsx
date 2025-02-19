@@ -8,7 +8,7 @@ import { motion as M } from "framer-motion";
 interface IAnswer {
   id: number;
   text: string;
-  isCurrect: boolean; // Assuming you meant "isCorrect", so it should be corrected
+  isCurrect: boolean;
   votePortion: number;
 }
 
@@ -23,12 +23,12 @@ const QuestionsList = () => {
     queryKey: ["get-question"],
     queryFn: getQuestions,
   });
-
+  console.log(data);
   if (isError) return "error";
   if (isLoading) return <CircleLoading />;
 
   return (
-    <div className="grid grid-cols-3 my-20 gap-4">
+    <div className="grid grid-cols-3 py-20 gap-4">
       {data?.map((q) => (
         <M.div
           initial={{ rotate: 30 }}
@@ -42,7 +42,9 @@ const QuestionsList = () => {
           <div className="absolute top-2 right-1 w-fit h-fit active:bg-white/30 rounded-full cursor-pointer transition-all duration-200">
             <More className="w-6 h-6 fill-white rotate-90 p-1" />
           </div>
-          <h2 className="text-xl font-semibold my-4">{q.text}</h2>
+          <h2 className="text-xl font-semibold my-4 flex items-center justify-between">
+            {q.text} <span className="text-sm">qID:{q.id}</span>
+          </h2>
           <div className="">
             {q.answers.map((a, index) => (
               <div key={a.id} className="flex items-center gap-3 my-2">
