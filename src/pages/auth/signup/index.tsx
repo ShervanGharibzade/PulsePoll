@@ -6,12 +6,7 @@ import * as yup from "yup";
 import Button from "../../../components/button";
 import { pageRoutes } from "../../../routes/routes";
 import { signUp } from "../../../restApi/auth/signout";
-
-interface IUserInfo {
-  username: string;
-  email: string;
-  password: string;
-}
+import { IUserInfo } from "../../../types";
 
 const schema = yup.object().shape({
   username: yup.string().required("Username is required"),

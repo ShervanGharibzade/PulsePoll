@@ -1,11 +1,6 @@
 import { apiRoutes } from "../../../routes/routes";
+import { IUserInfo } from "../../../types";
 import { buildBaseUrl } from "../../../utils/buildBaseUrl";
-
-interface IUserInfo {
-  username: string;
-  email: string;
-  password: string;
-}
 
 export const signUp = async (userInfo: IUserInfo) => {
   try {

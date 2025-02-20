@@ -2,23 +2,12 @@ import { useEffect, useState } from "react";
 import Check from "../../../assets/icons/check.svg?react";
 import { useParams } from "react-router-dom";
 import { getQuestionsById } from "../../../restApi/user/question";
-
-interface IAnswer {
-  id: number;
-  text: string;
-  isCurrect: boolean;
-  votePortion: number;
-}
-
-interface IQuestion {
-  id: number;
-  text: string;
-  answers: IAnswer[];
-}
+import { IQuestion } from "../../../types";
 
 const QuestionId = () => {
   const { id } = useParams();
   const [question, setQuestion] = useState<IQuestion>();
+
   useEffect(() => {
     const getQuestion = async () => {
       const q = await getQuestionsById(Number(id));
@@ -26,7 +15,6 @@ const QuestionId = () => {
     };
     getQuestion();
   }, []);
-  console.log(question);
 
   return (
     <div className="h-screen">

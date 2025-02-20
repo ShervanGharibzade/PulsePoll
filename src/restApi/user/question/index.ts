@@ -1,16 +1,6 @@
-import { IQuestion } from "../../../pages/dashboard/showQuestions";
 import { apiRoutes } from "../../../routes/routes";
+import { ICreateQuestion, IQuestion } from "../../../types";
 import { buildBaseUrl } from "../../../utils/buildBaseUrl";
-
-export interface ICreateAnswers {
-  text: string;
-  isCurrect: boolean;
-  votePortion: number;
-}
-export interface ICreateQuestion {
-  Question: string;
-  Answers: ICreateAnswers[];
-}
 
 const headers = () => {
   return {

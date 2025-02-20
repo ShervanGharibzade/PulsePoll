@@ -4,18 +4,9 @@ import Input from "../../../components/input";
 import clsx from "clsx";
 import Check from "../../../assets/icons/check.svg?react";
 import Close from "../../../assets/icons/close-icon.svg?react";
-import {
-  createQuestions,
-  ICreateQuestion,
-} from "../../../restApi/user/question";
 import { showToast } from "../../../components/toast";
-
-export interface IAnswer {
-  id: number;
-  text: string;
-  isCurrect: boolean;
-  votePortion: number;
-}
+import { IAnswer, ICreateQuestion } from "../../../types";
+import { createQuestions } from "../../../restApi/user/question";
 
 const Questions = () => {
   const [titleQuestion, setTitleQuestion] = useState<string>("");

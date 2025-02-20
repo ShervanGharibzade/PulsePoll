@@ -1,22 +1,10 @@
 import { getQuestions } from "../../../restApi/user/question";
-import Check from "../../../assets/icons/check.svg?react";
 import { useQuery } from "@tanstack/react-query";
 import CircleLoading from "../../../components/circleLoading";
 import { motion as M } from "framer-motion";
 import Options from "../../../components/options";
-
-interface IAnswer {
-  id: number;
-  text: string;
-  isCurrect: boolean;
-  votePortion: number;
-}
-
-export interface IQuestion {
-  id: number;
-  text: string;
-  answers: IAnswer[];
-}
+import Answer from "./answer";
+import { IQuestion } from "../../../types";
 
 const LIST = [{ title: "Share" }, { title: "Edit" }];
 
@@ -25,13 +13,13 @@ const QuestionsList = () => {
     queryKey: ["get-question"],
     queryFn: getQuestions,
   });
-  console.log(data);
+
   if (isError) return "error";
   if (isLoading) return <CircleLoading />;
 
   return (
     <div className="grid grid-cols-3 py-20 gap-4">
-      {data?.map((q) => (
+      {data?.map((q: IQuestion) => (
         <M.div
           initial={{ rotate: 30 }}
           animate={{ rotate: 0 }}
@@ -50,19 +38,7 @@ const QuestionsList = () => {
           <span className="text-sm">qID:{q.id}</span>
           <div className="">
             {q.answers.map((a, index) => (
-              <div key={a.id} className="flex items-center gap-3 my-2">
-                <span className="min-w-10">
-                  <h3 className="text-base font-medium">
-                    {++index}. {a.text}
-                  </h3>
-                </span>
-                <span className="min-w-10">
-                  vote: {a.votePortion > 0 && a.votePortion}
-                </span>
-                {a.isCurrect && (
-                  <Check className="w-6 h-6 bg-green-700 p-1 fill-white rounded-full" />
-                )}
-              </div>
+              <Answer answer={a} index={index} />
             ))}
           </div>
         </M.div>

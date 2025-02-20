@@ -1,10 +1,6 @@
 import { apiRoutes } from "../../../routes/routes";
+import { IUserInfo } from "../../../types";
 import { buildBaseUrl } from "../../../utils/buildBaseUrl";
-
-interface IUserInfo {
-  username: string;
-  password: string;
-}
 
 export const login = async (userInfo: IUserInfo): Promise<void> => {
   try {

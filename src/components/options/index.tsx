@@ -1,11 +1,6 @@
-import { ReactElement, useState } from "react";
+import { useState } from "react";
 import More from "../../assets/icons/menu-dots.svg?react";
-
-interface IOption {
-  title: string;
-  click?: any;
-  icon?: ReactElement;
-}
+import { IOption } from "../../types";
 
 const Options = ({ list }: { list: IOption[] }) => {
   const [open, setOpen] = useState(false);

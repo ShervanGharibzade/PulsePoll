@@ -5,11 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { userInfo } from "../../../restApi/user";
 import { signOut } from "../../../restApi/auth/logout";
 import { useEffect, useState } from "react";
-
-interface IMenuItem {
-  title: string;
-  link: string;
-}
+import { IMenuItem } from "../../../types";
 
 const menuItems: IMenuItem[] = [
   { title: "Home", link: "/" },
