@@ -6,8 +6,6 @@ import Options from "../../../components/options";
 import Answer from "./answer";
 import { IQuestion } from "../../../types";
 
-const LIST = [{ title: "Share" }, { title: "Edit" }];
-
 const QuestionsList = () => {
   const { isLoading, isError, data } = useQuery({
     queryKey: ["get-question"],
@@ -30,7 +28,7 @@ const QuestionsList = () => {
           className="w-full gap-5 items-center border border-gray-500 p-4 rounded-lg relative"
         >
           <div className="absolute top-2 right-1 w-fit h-fit active:bg-white/30 rounded-full cursor-pointer transition-all duration-200">
-            <Options list={LIST} />
+            <Options qId={q.uid} />
           </div>
           <h2 className="text-xl font-semibold my-2 flex items-center justify-between">
             {q.text}

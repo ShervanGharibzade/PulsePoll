@@ -62,6 +62,7 @@ const Questions = () => {
 
     const data: ICreateQuestion = {
       Question: titleQuestion,
+      is_publish: false,
       Answers: filteredAnswers,
     };
 

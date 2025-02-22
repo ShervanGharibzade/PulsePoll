@@ -26,6 +26,28 @@ const getQuestionsById = async (id: number) => {
   return response.json();
 };
 
+const publishedQuestion = async (uid: string) => {
+  const response = await fetch(
+    buildBaseUrl(apiRoutes.questions.publishQuestion(uid)),
+    {
+      method: "POST",
+      headers: headers(),
+    }
+  );
+  return await response.json();
+};
+
+const getQuestionsPublished = async (): Promise<IQuestion[]> => {
+  const response = await fetch(
+    buildBaseUrl(apiRoutes.questions.publishQuestionList),
+    {
+      method: "GET",
+      headers: headers(),
+    }
+  );
+  return await response.json();
+};
+
 const createQuestions = async (question: ICreateQuestion) => {
   try {
     const response = await fetch(buildBaseUrl(apiRoutes.questions.create), {
@@ -74,4 +96,6 @@ export {
   createQuestions,
   updateQuestions,
   deleteQuestions,
+  publishedQuestion,
+  getQuestionsPublished,
 };

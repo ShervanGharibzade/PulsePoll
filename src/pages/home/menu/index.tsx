@@ -10,7 +10,7 @@ import { IMenuItem } from "../../../types";
 const menuItems: IMenuItem[] = [
   { title: "Home", link: "/" },
   { title: "Dashboard", link: "/dashboard" },
-  { title: "Contact us", link: "/Contact" },
+  { title: "published", link: pageRoutes.questionPublishedList },
   { title: "About us", link: "/about" },
 ];
 
@@ -53,7 +53,6 @@ const Menu = () => {
   if (error instanceof Error) {
     return <div className="text-white">Error: {error.message}</div>;
   }
-  console.log(token, "toto");
 
   return (
     <nav className="py-5">
@@ -89,9 +88,9 @@ const Menu = () => {
               as={"button"}
               onClick={() => {
                 signOut(token);
-                localStorage.removeItem("authToken"); // Clear the token
-                setToken(null); // Update the token state
-                navigate(pageRoutes.login); // Redirect to login
+                localStorage.removeItem("authToken");
+                setToken(null);
+                navigate(pageRoutes.login);
               }}
             />
           </div>

@@ -6,6 +6,8 @@ export const apiRoutes = {
   questions: {
     getAll: "questions",
     getById: (id: number) => `questions/${id}`,
+    publishQuestionList: "questions/published/questions",
+    publishQuestion: (uid: string) => `questions/publish/${uid}`,
     create: "questions/create",
     delete: (id: number) => `questions/${id}`,
     update: (id: number) => `questions/${id}`,
@@ -24,5 +26,8 @@ questions/${queId}/answers/${ansId}`,
 export const pageRoutes = {
   login: "/auth/login",
   signUp: "/auth/sign-up",
+  dashboard: "/dashboard",
+  questionPublishedList: "/dashboard/question/published",
+  questionId: "question/:id",
   home: "/",
 };

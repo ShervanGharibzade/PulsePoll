@@ -9,6 +9,8 @@ export interface IAnswer {
 
 export interface IQuestion {
   id: number;
+  uid: string;
+  is_publish: boolean;
   text: string;
   answers: IAnswer[];
 }
@@ -37,5 +39,6 @@ export interface ICreateAnswers {
 }
 export interface ICreateQuestion {
   Question: string;
+  is_publish: boolean;
   Answers: ICreateAnswers[];
 }
