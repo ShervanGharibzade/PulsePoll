@@ -21,6 +21,11 @@ questions/${queId}/answers/${ansId}`,
     update: (queId: number, ansId: number) => `questions/
 questions/${queId}/answers/${ansId}`,
   },
+  member: {
+    signup: "member/signup",
+    voting: "member/voting",
+    get: "member/get",
+  },
 };
 
 export const pageRoutes = {

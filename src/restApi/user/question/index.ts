@@ -42,7 +42,6 @@ const getQuestionsPublished = async (): Promise<IQuestion[]> => {
     buildBaseUrl(apiRoutes.questions.publishQuestionList),
     {
       method: "GET",
-      headers: headers(),
     }
   );
   return await response.json();

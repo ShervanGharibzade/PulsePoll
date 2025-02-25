@@ -12,7 +12,7 @@ const Button = ({
   disabled,
 }: {
   title?: string;
-  onClick?: () => Promise<void> | void;
+  onClick?: any;
   iconStart?: React.ReactNode;
   iconEnd?: React.ReactNode;
   className?: string;
