@@ -62,7 +62,7 @@ const QuestionPublish = (questionId: string, answerId: number) => {
                   if (canVote()) {
                     console.log(a.id, q.id, q.userId, "lolo");
 
-                    // voteSubmit.mutate();
+                    voteSubmit.mutate();
                   }
                   return;
                 }}
