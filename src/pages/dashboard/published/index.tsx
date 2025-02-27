@@ -1,92 +1,47 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { getQuestionsPublished } from "../../../restApi/user/question";
 import { IQuestion } from "../../../types";
 import { motion as M } from "framer-motion";
-import { useState, useEffect } from "react";
-import Input from "../../../components/input";
-import Button from "../../../components/button";
-import Check from "../../../assets/icons/close-icon.svg?react";
-import { getMember, memberSignup, memberVoting } from "../../../restApi/member";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getQuestionsPublished } from "../../../restApi/user/question";
+import CircleLoading from "../../../components/circleLoading";
 import { showToast } from "../../../components/toast";
+import { submitVote } from "../../../restApi/user/vote";
+import { useState } from "react";
 
-const QuestionPublish = () => {
-  // Queries for questions and member data
-  const {
-    data: questionsData,
-    isLoading: isLoadingQuestions,
-    isError: isErrorQuestions,
-  } = useQuery({
-    queryKey: ["getQuestionPublishedList"],
+const QuestionPublish = (questionId: string, answerId: number) => {
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ["getQuestionsPublished"],
     queryFn: getQuestionsPublished,
   });
 
-  const { data: memberData } = useQuery({
-    queryKey: ["getMember"],
-    queryFn: getMember,
-  });
+  const token = localStorage.getItem("authToken");
 
-  // State management
-  const [showModal, setShowModal] = useState(false);
-  const [email, setEmail] = useState(memberData?.email || "");
-  console.log(memberData);
-
-  useEffect(() => {
-    if (memberData?.email) {
-      setEmail(memberData.email); // Initialize with the member's email if logged in
+  const [answer, setAnswer] = useState("");
+  const [question, setQuestion] = useState("");
+  const [user, setUser] = useState<number>(0);
+  const canVote = () => {
+    if (!token) {
+      showToast("your not login", "error");
+      return false;
     }
-  }, [memberData]);
-
-  // Check if the user is logged in
-  const checkExistToken = () => {
-    const token = localStorage.getItem("authToken");
-    if (token) return false;
-    setShowModal(true);
     return true;
   };
 
-  // Signup mutation
-  const signupMutation = useMutation({
-    mutationKey: ["memberSignup"],
-    mutationFn: () => memberSignup(email),
-    onSuccess: (res) => {
-      localStorage.setItem("authToken", res.member.token);
-      setEmail(res.member.email); // Set email after successful login
-      showToast("You are logged in successfully", "success");
-      setShowModal(false);
-    },
-    onError: (error) => {
-      showToast(error.message, "error");
-    },
-  });
-
-  // Voting mutation
-  const votingMutation = useMutation({
-    mutationKey: ["memberVoting"],
-    mutationFn: ({
-      questionId,
-      answerId,
-    }: {
-      questionId: string;
-      answerId: number;
-    }) => memberVoting(email, questionId, answerId),
+  const voteSubmit = useMutation({
+    mutationFn: () => submitVote(answer, user, question),
     onSuccess: () => {
-      showToast("Voting successfully done", "success");
+      console.log("Vote submitted successfully!");
     },
     onError: (error) => {
-      showToast(error.message, "error");
+      console.error("Error submitting vote:", error);
     },
   });
 
-  const canMemberVoting = (questionId: string, answerId: number) => {
-    if (checkExistToken()) return;
-    votingMutation.mutate({ questionId, answerId });
-  };
-
-  if (isLoadingQuestions || isErrorQuestions) return "Loading...";
+  if (isError) return "error";
+  if (isLoading) return <CircleLoading />;
 
   return (
     <div className="h-screen p-10 flex flex-col gap-4">
-      {questionsData?.map((q: IQuestion) => (
+      {data?.map((q: IQuestion) => (
         <M.div
           initial={{ scale: 1.02 }}
           animate={{ scale: 1 }}
@@ -100,44 +55,24 @@ const QuestionPublish = () => {
               <div
                 key={a.id}
                 className="text-base font-semibold my-5 border border-solid rounded-lg px-5 py-2 cursor-pointer"
-                onClick={() => canMemberVoting(q.uid, a.id)}
+                onClick={() => {
+                  setAnswer(String(a.id));
+                  setQuestion(String(q.id));
+                  setUser(q.userId);
+                  if (canVote()) {
+                    console.log(a.id, q.id, q.userId, "lolo");
+
+                    // voteSubmit.mutate();
+                  }
+                  return;
+                }}
               >
-                {index + 1}. {a.text} {a.votePortion}
+                {index + 1}. {a.text} {a.total_vote}
               </div>
             ))}
           </div>
         </M.div>
       ))}
-
-      {showModal && (
-        <div className="absolute top-0 left-0 bg-black/40 w-full h-full flex flex-col items-center justify-center">
-          <div className="max-w-[400px] bg-zinc-600 rounded-lg flex flex-col gap-4 p-5">
-            <div className="flex items-center">
-              <div className="text-center flex-1">You are not logged in</div>
-              <Check
-                className="w-5 fill-white cursor-pointer"
-                onClick={() => setShowModal(false)}
-              />
-            </div>
-            <div className="flex flex-col gap-4">
-              <Input
-                name="email"
-                isDisabled={signupMutation.isPending || !!email}
-                value={email}
-                className="bg-zinc-800 text-white"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setEmail(e.target.value)
-                }
-              />
-              <Button
-                title="Submit"
-                onClick={() => signupMutation.mutate()}
-                disabled={!email || signupMutation.isPending}
-              />
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

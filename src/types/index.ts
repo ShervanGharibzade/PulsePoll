@@ -3,13 +3,14 @@ import { ReactElement } from "react";
 export interface IAnswer {
   id: number;
   text: string;
-  isCurrect: boolean;
-  votePortion: number;
+  is_correct: boolean;
+  total_vote: number;
 }
 
 export interface IQuestion {
   id: number;
   uid: string;
+  userId: number;
   is_publish: boolean;
   text: string;
   answers: IAnswer[];
@@ -34,8 +35,8 @@ export interface IMenuItem {
 
 export interface ICreateAnswers {
   text: string;
-  isCurrect: boolean;
-  votePortion: number;
+  is_correct: boolean;
+  total_vote: number;
 }
 export interface ICreateQuestion {
   Question: string;

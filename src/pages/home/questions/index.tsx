@@ -11,8 +11,8 @@ import { createQuestions } from "../../../restApi/user/question";
 const Questions = () => {
   const [titleQuestion, setTitleQuestion] = useState<string>("");
   const [answers, setAnswers] = useState<IAnswer[]>([
-    { id: 0, text: "", isCurrect: false, votePortion: 0 },
-    { id: 1, text: "", isCurrect: false, votePortion: 0 },
+    { id: 0, text: "", is_correct: false, total_vote: 0 },
+    { id: 1, text: "", is_correct: false, total_vote: 0 },
   ]);
   const [currentAnswer, setCurrentAnswer] = useState<number | null>(null);
 
@@ -31,7 +31,7 @@ const Questions = () => {
     setAnswers((prev) =>
       prev.map((ans) => ({
         ...ans,
-        isCurrect: ans.id === id,
+        is_correct: ans.id === id,
       }))
     );
     setCurrentAnswer(id);
@@ -48,7 +48,7 @@ const Questions = () => {
   const handleAddAnswer = () => {
     setAnswers((prev) => [
       ...prev,
-      { id: prev.length, text: "", isCurrect: false, votePortion: 0 },
+      { id: prev.length, text: "", is_correct: false, total_vote: 0 },
     ]);
   };
 
