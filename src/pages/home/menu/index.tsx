@@ -6,6 +6,7 @@ import { userInfo } from "../../../restApi/user";
 import { signOut } from "../../../restApi/auth/logout";
 import { useEffect, useState } from "react";
 import { IMenuItem } from "../../../types";
+import isInValidToken from "../../../utils/invalidToken";
 
 const menuItems: IMenuItem[] = [
   { title: "Home", link: "/" },
@@ -50,8 +51,8 @@ const Menu = () => {
     return <div className="text-white">Loading...</div>;
   }
 
-  if (error instanceof Error) {
-    return <div className="text-white">Error: {error.message}</div>;
+  if (error) {
+    return isInValidToken(error?.message);
   }
 
   return (

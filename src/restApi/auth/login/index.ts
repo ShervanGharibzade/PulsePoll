@@ -1,8 +1,8 @@
 import { apiRoutes } from "../../../routes/routes";
-import { IUserInfo } from "../../../types";
+import { IUserLogin } from "../../../types";
 import { buildBaseUrl } from "../../../utils/buildBaseUrl";
 
-export const login = async (userInfo: IUserInfo): Promise<void> => {
+export const login = async (userInfo: IUserLogin): Promise<any> => {
   try {
     const response = await fetch(buildBaseUrl(apiRoutes.login), {
       method: "POST",
@@ -14,14 +14,21 @@ export const login = async (userInfo: IUserInfo): Promise<void> => {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to log in");
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to log in");
     }
 
     const responseData = await response.json();
-    console.log("Logged in successfully:", responseData);
+
+    if (!responseData.token) {
+      throw new Error("Invalid response from server");
+    }
 
     localStorage.setItem("authToken", responseData.token);
+
+    return responseData;
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Login error:", error);
+    throw error;
   }
 };

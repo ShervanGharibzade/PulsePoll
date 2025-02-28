@@ -3,6 +3,8 @@ import Button from "../../../components/button";
 import { pageRoutes } from "../../../routes/routes";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../../restApi/auth/login";
+import { useMutation } from "@tanstack/react-query";
+import { showToast } from "../../../components/toast";
 
 type LoginFormInputs = {
   username: string;
@@ -17,9 +19,19 @@ const Login = () => {
     formState: { errors },
   } = useForm<LoginFormInputs>();
 
+  const loginMutation = useMutation({
+    mutationKey: ["login"],
+    mutationFn: (data: LoginFormInputs) => login(data),
+    onSuccess: (res: any) => {
+      navigate(pageRoutes.home);
+    },
+    onError: (error: any) => {
+      console.log("adsaadsdas");
+    },
+  });
+
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
-    await login(data);
-    navigate(pageRoutes.home);
+    loginMutation.mutate(data);
   };
 
   return (
@@ -41,7 +53,7 @@ const Login = () => {
             <input
               {...register("username", { required: "Username is required" })}
               placeholder="Enter your username"
-              className="rounded-md px-2 py-2 bg-slate-200 text-sm outline-none placeholder:text-sm placeholder:font-medium"
+              className="rounded-md px-2 text-zinc-700 py-2 bg-slate-200 text-sm outline-none placeholder:text-sm placeholder:font-medium"
             />
             {errors.username && (
               <span className="text-red-400 text-sm">
@@ -56,7 +68,7 @@ const Login = () => {
               type="password"
               {...register("password", { required: "Password is required" })}
               placeholder="Enter your password"
-              className="rounded-md px-2 py-2 bg-slate-200 text-sm outline-none placeholder:text-sm placeholder:font-medium"
+              className="rounded-md px-2 py-2 bg-slate-200 text-sm outline-none placeholder:text-sm placeholder:font-medium text-zinc-700"
             />
             {errors.password && (
               <span className="text-red-400 text-sm">

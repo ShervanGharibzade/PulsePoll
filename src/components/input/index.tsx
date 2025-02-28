@@ -31,11 +31,11 @@ const Input = ({
         disabled={isDisabled}
         placeholder={placeHolder}
         className={twMerge(
-          "rounded-full px-3 py-2 text-gray-800 outline-none",
+          "rounded-full px-3 py-2 text-gray-800 dark:text-red-400 outline-none",
           className
         )}
         onChange={onChange}
-      ></input>
+      />
       <span>{iconEnd}</span>
     </div>
   );
