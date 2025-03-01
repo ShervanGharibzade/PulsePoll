@@ -52,7 +52,8 @@ const Menu = () => {
   }
 
   if (error) {
-    return isInValidToken(error?.message);
+    isInValidToken(error?.message);
+    return <></>;
   }
 
   return (

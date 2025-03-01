@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/home/page";
 import Login from "./pages/auth/login";
 import Signup from "./pages/auth/signup";
-import Dashboard from "./pages/dashboard";
+import Dashboard from "./pages/dashboard/page";
 import QuestionId from "./pages/home/questionId";
 import { pageRoutes } from "./routes/routes";
 import QuestionPublish from "./pages/dashboard/published";

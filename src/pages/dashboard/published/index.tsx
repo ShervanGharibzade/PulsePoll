@@ -7,8 +7,8 @@ import { showToast } from "../../../components/toast";
 import { submitVote } from "../../../restApi/user/vote";
 import { useState } from "react";
 
-const QuestionPublish = (questionId: string, answerId: number) => {
-  const { data, isError, isLoading } = useQuery({
+const QuestionPublish = () => {
+  const { data, isError, isLoading, refetch } = useQuery({
     queryKey: ["getQuestionsPublished"],
     queryFn: getQuestionsPublished,
   });
@@ -30,6 +30,7 @@ const QuestionPublish = (questionId: string, answerId: number) => {
     mutationFn: () => submitVote(answer, user, question),
     onSuccess: () => {
       console.log("Vote submitted successfully!");
+      refetch();
     },
     onError: (error) => {
       console.error("Error submitting vote:", error);

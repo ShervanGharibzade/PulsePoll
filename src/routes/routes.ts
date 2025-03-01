@@ -6,6 +6,7 @@ export const apiRoutes = {
   questions: {
     getAll: "questions",
     getById: (id: number) => `questions/${id}`,
+    getPublishedById: (id: string | number) => `questions/published/find/${id}`,
     publishQuestionList: "questions/published/questions",
     publishQuestion: (uid: string) => `questions/publish/${uid}`,
     create: "questions/create",

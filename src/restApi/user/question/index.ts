@@ -19,10 +19,13 @@ const getQuestions = async (): Promise<IQuestion[]> => {
 };
 
 const getQuestionsById = async (id: number) => {
-  const response = await fetch(buildBaseUrl(apiRoutes.questions.getById(id)), {
-    method: "GET",
-    headers: headers(),
-  });
+  const response = await fetch(
+    buildBaseUrl(apiRoutes.questions.getPublishedById(id)),
+    {
+      method: "GET",
+      headers: headers(),
+    }
+  );
   return response.json();
 };
 

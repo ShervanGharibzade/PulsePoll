@@ -1,4 +1,4 @@
-import Menu from "../home/menu";
+import Menu from "../home/menu/index";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
