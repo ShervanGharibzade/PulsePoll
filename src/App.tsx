@@ -18,7 +18,10 @@ function App() {
           <Route path={pageRoutes.signUp} element={<Signup />} />
           <Route path={pageRoutes.dashboard} element={<Dashboard />} />
           <Route path={pageRoutes.questionId} element={<QuestionId />} />
-          <Route path={"dashboard/details/:id"} element={<QuestionDetails />} />
+          <Route
+            path={pageRoutes.questionDetails()}
+            element={<QuestionDetails />}
+          />
           <Route
             path={pageRoutes.questionPublishedList}
             element={<QuestionPublish />}

@@ -35,5 +35,5 @@ export const pageRoutes = {
   questionPublishedList: "/dashboard/question/published",
   questionId: "question/:id",
   home: "/",
-  questionDetails: (id: string) => `/dashboard/details/${id}`,
+  questionDetails: (id?: string) => `/dashboard/details/${id ? id : ":id"}`,
 };
