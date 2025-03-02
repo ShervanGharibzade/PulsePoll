@@ -24,6 +24,7 @@ questions/${queId}/answers/${ansId}`,
   },
   vote: {
     submit: (qId: string) => `question/voted/${qId}`,
+    getDetails: (qId: string) => `question/voted/details/${qId}`,
   },
 };
 
@@ -34,4 +35,5 @@ export const pageRoutes = {
   questionPublishedList: "/dashboard/question/published",
   questionId: "question/:id",
   home: "/",
+  questionDetails: (id: string) => `/dashboard/details/${id}`,
 };

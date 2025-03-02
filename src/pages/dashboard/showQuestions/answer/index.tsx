@@ -10,9 +10,9 @@ const Answer = ({ answer, index }: { answer: IAnswer; index: number }) => {
         </h3>
       </span>
       <span className="min-w-10">
-        vote: {answer.votePortion > 0 && answer.votePortion}
+        vote: {answer.total_vote > 0 ? answer.total_vote : 0}
       </span>
-      {answer.isCurrect && (
+      {answer.is_correct && (
         <Check className="w-6 h-6 bg-green-700 p-1 fill-white rounded-full" />
       )}
     </div>

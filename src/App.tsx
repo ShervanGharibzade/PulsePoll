@@ -6,6 +6,7 @@ import Dashboard from "./pages/dashboard/page";
 import QuestionId from "./pages/home/questionId";
 import { pageRoutes } from "./routes/routes";
 import QuestionPublish from "./pages/dashboard/published";
+import { QuestionDetails } from "./pages/dashboard/questionDetails";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path={pageRoutes.signUp} element={<Signup />} />
           <Route path={pageRoutes.dashboard} element={<Dashboard />} />
           <Route path={pageRoutes.questionId} element={<QuestionId />} />
+          <Route path={"dashboard/details/:id"} element={<QuestionDetails />} />
           <Route
             path={pageRoutes.questionPublishedList}
             element={<QuestionPublish />}

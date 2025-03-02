@@ -5,9 +5,13 @@ import Option from "../option";
 import { showToast } from "../toast";
 import { publishedQuestion } from "../../restApi/user/question";
 import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { pageRoutes } from "../../routes/routes";
 
 const Options = ({ qId }: { qId: string }) => {
   const [open, setOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   const publishQuestion = useMutation({
     mutationKey: ["publishedQuestion"],
@@ -32,6 +36,10 @@ const Options = ({ qId }: { qId: string }) => {
     () => [
       { title: "Share" },
       { title: "Edit" },
+      {
+        title: "Details",
+        click: () => navigate(pageRoutes.questionDetails(qId)),
+      },
       { title: "Publish", click: () => publishQuestion.mutate() },
     ],
     [publishQuestion]
