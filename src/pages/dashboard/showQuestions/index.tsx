@@ -5,6 +5,7 @@ import { motion as M } from "framer-motion";
 import Options from "../../../components/options";
 import Answer from "./answer";
 import { IQuestion } from "../../../types";
+import Emty from "../../../components/empty";
 
 const QuestionsList = () => {
   const { isLoading, isError, data } = useQuery({
@@ -12,11 +13,11 @@ const QuestionsList = () => {
     queryFn: getQuestions,
   });
 
-  if (isError) return "error";
+  if (isError) return <Emty />;
   if (isLoading) return <CircleLoading />;
 
   return (
-    <div className="grid grid-cols-3 py-20 gap-4">
+    <div className="grid grid-cols-3 py-20 gap-4 p-10">
       {data?.map((q: IQuestion) => (
         <M.div
           initial={{ rotate: 30 }}
@@ -28,7 +29,7 @@ const QuestionsList = () => {
           className="w-full gap-5 items-center border border-gray-500 p-4 rounded-lg relative"
         >
           <div className="absolute top-2 right-1 w-fit h-fit active:bg-white/30 rounded-full cursor-pointer transition-all duration-200">
-            <Options qId={q.uid} />
+            <Options qUid={q.uid} qId={q.id} />
           </div>
           <h2 className="text-xl font-semibold my-2 flex items-center justify-between">
             {q.text}

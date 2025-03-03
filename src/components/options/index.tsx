@@ -8,14 +8,14 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { pageRoutes } from "../../routes/routes";
 
-const Options = ({ qId }: { qId: string }) => {
+const Options = ({ qUid, qId }: { qUid: string; qId: number }) => {
   const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
 
   const publishQuestion = useMutation({
     mutationKey: ["publishedQuestion"],
-    mutationFn: () => publishedQuestion(qId),
+    mutationFn: () => publishedQuestion(qUid),
     onSuccess: (res) => {
       const isSuccess = res?.status >= 200 && res?.status < 300;
       const message = isSuccess
@@ -38,7 +38,7 @@ const Options = ({ qId }: { qId: string }) => {
       { title: "Edit" },
       {
         title: "Details",
-        click: () => navigate(pageRoutes.questionDetails(qId)),
+        click: () => navigate(pageRoutes.questionDetails(String(qId))),
       },
       { title: "Publish", click: () => publishQuestion.mutate() },
     ],

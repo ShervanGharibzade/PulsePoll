@@ -44,7 +44,7 @@ const QuestionPublish = () => {
   if (isLoading) return <CircleLoading />;
 
   return (
-    <div className="max-w-[1200px] mx-auto min-h-screen">
+    <div className="max-w-[1200px] mx-auto min-h-screen px-10">
       <Menu />
       <div className="h-screen p-10 flex flex-col gap-4">
         {data?.map((q: IQuestion) => (

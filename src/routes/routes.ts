@@ -30,6 +30,7 @@ questions/${queId}/answers/${ansId}`,
 
 export const pageRoutes = {
   login: "/auth/login",
+  about: "/about",
   signUp: "/auth/sign-up",
   dashboard: "/dashboard",
   questionPublishedList: "/dashboard/question/published",

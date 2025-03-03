@@ -39,9 +39,6 @@ const Header = () => {
         Engage your participants with live polls, Q&A, quizzes and word clouds —
         whether you meet in the office, online or in-between.
       </p>
-      <div className="w-fit mx-auto mt-5">
-        <Button title="Try now free!" className="text-2xl" />
-      </div>
     </div>
   );
 };

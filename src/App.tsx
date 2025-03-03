@@ -7,6 +7,7 @@ import QuestionId from "./pages/home/questionId";
 import { pageRoutes } from "./routes/routes";
 import QuestionPublish from "./pages/dashboard/published";
 import { QuestionDetails } from "./pages/dashboard/questionDetails";
+import About from "./pages/about/page";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             path={pageRoutes.questionPublishedList}
             element={<QuestionPublish />}
           />
+          <Route path={pageRoutes.about} element={<About />} />
         </Routes>
       </Router>
     </div>
