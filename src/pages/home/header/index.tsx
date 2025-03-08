@@ -9,7 +9,6 @@ const Header = () => {
   const [qID, setQID] = useState<number>();
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    console.log(value);
 
     setQID(Number(value));
   };

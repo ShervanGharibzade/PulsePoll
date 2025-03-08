@@ -22,11 +22,11 @@ const Login = () => {
   const loginMutation = useMutation({
     mutationKey: ["login"],
     mutationFn: (data: LoginFormInputs) => login(data),
-    onSuccess: (res: any) => {
+    onSuccess: () => {
       navigate(pageRoutes.home);
     },
     onError: (error: any) => {
-      console.log("adsaadsdas");
+      showToast(error.message, "error");
     },
   });
 

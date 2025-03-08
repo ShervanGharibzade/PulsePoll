@@ -24,7 +24,6 @@ const submitVote = async (aId: string, userId: number, qId: string) => {
 
   const data = await res.json();
 
-  console.log("Vote submitted successfully:", data);
   return data;
 };
 

@@ -23,7 +23,6 @@ const Options = ({ qUid, qId }: { qUid: string; qId: number }) => {
         : "Operation failed";
 
       showToast(message, isSuccess ? "success" : "error");
-      console.log(res, "Success Response");
     },
     onError: (error) => {
       const errorMessage = error?.message || "An error occurred";

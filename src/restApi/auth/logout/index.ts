@@ -20,10 +20,9 @@ export const signOut = async (token: string): Promise<void> => {
     if (contentType && contentType.includes("application/json")) {
       localStorage.removeItem("authToken");
       const data = await response.json();
-      console.log("Sign out successful:", data);
+      return data;
     } else {
       localStorage.removeItem("authToken");
-      console.log("Sign out successful (no data returned)");
     }
   } catch (error) {
     console.error("Sign out error:", error);
