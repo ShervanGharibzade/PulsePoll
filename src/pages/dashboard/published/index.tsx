@@ -8,14 +8,30 @@ import { submitVote } from "../../../restApi/user/vote";
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import Menu from "../../home/menu";
+import { userInfo } from "../../../restApi/user";
 
 const QuestionPublish = () => {
+  const token = localStorage.getItem("authToken");
+
   const { data, isError, isLoading, refetch } = useQuery({
     queryKey: ["getQuestionsPublished"],
     queryFn: getQuestionsPublished,
   });
 
-  const token = localStorage.getItem("authToken");
+  const {
+    data: userData,
+    error: userError,
+    isLoading: userLoading,
+  } = useQuery({
+    queryKey: ["userInfo", token],
+    queryFn: () => {
+      if (!token) {
+        throw new Error("No token found");
+      }
+      return userInfo(token);
+    },
+    enabled: !!token,
+  });
 
   const [answer, setAnswer] = useState("");
   const [question, setQuestion] = useState("");
@@ -31,17 +47,21 @@ const QuestionPublish = () => {
   const voteSubmit = useMutation({
     mutationFn: () => submitVote(answer, user, question),
     onSuccess: (res) => {
-      showToast(res.message ? res.message : res.error.message, "error");
+      showToast(res.message ? res.message : res.error.message, "success");
       refetch();
     },
     onError: (error) => {
+      if (Number(question) === userData?.userId) {
+        showToast("question owner cant sumbit any vote", "error");
+        return;
+      }
       showToast(error.message, "error");
       console.error("Error submitting vote:", error);
     },
   });
 
-  if (isError) return "error";
-  if (isLoading) return <CircleLoading />;
+  if (isError || userError) return "error";
+  if (isLoading || userLoading) return <CircleLoading />;
 
   return (
     <div className="max-w-[1200px] mx-auto min-h-screen px-10">

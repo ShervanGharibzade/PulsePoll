@@ -3,7 +3,7 @@ import { buildBaseUrl } from "../../utils/buildBaseUrl";
 
 export const userInfo = async (
   token: string | null
-): Promise<{ username: string; email: string } | null> => {
+): Promise<{ username: string; email: string; userId: number } | null> => {
   if (!token) {
     console.error("Token is required");
     return null;
